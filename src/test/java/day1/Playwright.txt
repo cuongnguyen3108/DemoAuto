@@ -1,0 +1,7 @@
+dùng để test UI
+ngôn ngữ lập trình hỗ trợ: JavaScript, TypeScript, Python, Java,...
+cấu hình: trong file playwright.config.
+hỗ trợ: Chromium, WebKit và Firefox trên Windows, Linux và macOS.
+hỗ trợ dùng CI.
+Dùng được debug.
+có thể tạo dự án mới hoặc thêm Playwright vào dự án đã có.
