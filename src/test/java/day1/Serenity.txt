@@ -1,0 +1,8 @@
+hỗ trợ:
+- Test API.
+- Kiểm tra web bằng Selenium.
+- Kiểm tra REST API với RestAssured.
+- Kiểm thử tự động dễ đọc, dễ bảo trì và có khả năng mở rộng với mô hình Screenplay
+- Thông số kỹ thuật thực thi theo kiểu BDD với Cucumber
+Ngôn ngữ Java
+
