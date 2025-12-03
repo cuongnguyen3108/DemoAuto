@@ -1,0 +1,21 @@
+Automation test là gì?
+- Là một quá trình xử lý tự động các bước thực hiện một test case.
+
+Tại sao cần auto test?
+- Nhanh: thời gian test sẽ nhanh hơn test thủ công.
+- Chi phí thấp: 1 lần cođe có thẻ dùng được mãi về sau.
+- Độ tin cậy cao: có kết quả và thời gian test rõ ràng, không thể làm sai hoặc tự ý đánh pass.
+- Khả năng lặp: có thể test cũng 1 kịch bản nhiều lần, mất ít thời gian hơn test thủ công.
+- Khả năng tái sử dụng: có thể dựa trên các kịch bản cũ để sửa lại khi dự án thay đổi hoặc sửa các bước thực hiện
+
+Khi nào cần chạy kịch bản auto test?
+- Khi muốn bao quát hết tất cả các kịch bản test.
+- Khi muốn cải thiện chất lượng dự án đi lên( tuy ban đầu sẽ hơi chậm)
+- Sẽ có độ tin cậy cao hơn khi test thủ công.
+- khi dự án có có khá năng mở rông hoặc thay đổi, khi đó kiểm thử thủ công sẽ phải mất thời gian để xem lại tất cả các bước của tất cả kịch bản xem có bị thay đổi gì không( sẽ mất thời gian để kiểm tra), còn kiểm thử tự động chỉ cần xem những chỗ thay đổi và sửa lại cho phù hợp
+
+Có mấy loại serenium? kể tên?
+- Có 3 loại serenium
++ WebDriver: để kiều khiển trình duyệt web.
++ IDE: ghi lại các thao tác và chạy lại( không cần code).
++ Selenium Grid: chạy song song, nhiều môi trường, nhiều máy.
