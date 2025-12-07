@@ -1,0 +1,63 @@
+Your Cart
+
+button remove: //div[text()="Sauce Labs Backpack"]/ancestor::div[@class="cart_item_label"]/descendant::button
+tên Sauce Labs Backpack: //div[text()="Sauce Labs Backpack"]
+theo tiền: //div[text()="Sauce Labs Backpack"]/ancestor::div[@class="cart_item_label"]/descendant::div[@class="inventory_item_price"]
+button Continue Shopping: //button[text()="Continue Shopping"]
+button Checkout: //button[text()="Checkout"]
+
+Checkout: Your Information
+
+input first name: //input[@id="first-name"]
+input last name: //input[@id="last-name"]
+input postal code: //input[@id="postal-code"]
+
+button Cancel: //button[text()="Cancel"]
+input continue: //input[@id="continue"]
+
+
+Checkout: Overview
+Payment Information:  //div[text()="Payment Information:"]
+SauceCard #31337: //div[text()="SauceCard #31337"]
+Shipping Information: //div[text()="Shipping Information:"]
+Free Pony Express Delivery!: //div[text()="Free Pony Express Delivery!"]
+Price Total: //div[text()="Price Total"]
+Item total: //div[text()="89.97"]
+Tax:  //div[text()="7.20"]
+Total: //div[text()="97.17"]
+button Cancel: //button[text()="Cancel"]
+button Finish: //button[text()="Finish"]
+
+Checkout: Complete!
+img: //img[@class="pony_express"]
+h2: //h2[text()="Thank you for your order!"]
+Your order has been dispatched, and will arrive just as fast as the pony can get there! ://div[@class="complete-text"]
+Back Home: //button[text()="Back Home"]
+
+
+link https://saucelabs.com/request-demo
+
+Img: //div[@class="MuiBox-root css-lwb5go"]/descendant::img
+Products://span[text()="Products"]
+Solutions://span[text()="Solutions"]
+Pricing://span[text()="Pricing"]
+Developers://span[text()="Developers"]
+Resources://span[text()="Resources"]
+Sign in: //button[text()="Sign in"]
+Request a demo: //button[text()="Request a demo"]
+Try it free: //button[text()="Try it free"]
+Input Email: //input[@id="Email"]
+Input Company: //input[@id="Company"]
+option Scalable Test Automation: //select[@id="Solution_Interest__c"]/descendant::option[text()="Scalable Test Automation "]
+option Mobile Application Testing : //select[@id="Solution_Interest__c"]/descendant::option[text()="Mobile Application Testing "]
+option Sauce AI Agents : //select[@id="Solution_Interest__c"]/descendant::option[text()="Sauce AI Agents "]
+option Replace DIY (In-house) Testing : //select[@id="Solution_Interest__c"]/descendant::option[text()="Replace DIY (In-house) Testing "]
+option Mobile App Distribution : //select[@id="Solution_Interest__c"]/descendant::option[text()="Mobile App Distribution "]
+option Test Analytics & Insights : //select[@id="Solution_Interest__c"]/descendant::option[text()="Test Analytics & Insights "]
+option Crash & Error Reporting : //select[@id="Solution_Interest__c"]/descendant::option[text()="Crash & Error Reporting "]
+option Emulator/Simulator Testing : //select[@id="Solution_Interest__c"]/descendant::option[text()="Emulator/Simulator Testing "]
+option Visual Testing : //select[@id="Solution_Interest__c"]/descendant::option[text()="Visual Testing "]
+Comments: //textarea[@id="Sales_Contact_Comments__c"]
+Checkbox: //label[@id="LblmktoCheckbox_47208_0"]
+Let's Talk: //button[text()="Let's Talk"]
+
