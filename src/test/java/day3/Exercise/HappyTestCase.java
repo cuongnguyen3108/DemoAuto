@@ -8,13 +8,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Objects;
 
 public class HappyTestCase {
-    public static void main(String[] args) {
+    public static void main(String[] args){
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://saucelabs.com/request-demo");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        String pageTitle1 = driver.getTitle();
 
         WebElement inputEmail = driver.findElement(By.xpath("//input[@id=\"Email\"]"));
         inputEmail.sendKeys("john.doe@yourcompany.com");
@@ -42,8 +44,24 @@ public class HappyTestCase {
 
         WebElement btnSubmit = driver.findElement(By.xpath("//button[@class='mktoButton']"));
         btnSubmit.click();
+// cô ơi cô xem cho em đoạn ở dưới với ạ,
+// đoạn này em bỏ qua phần quản cáo nhưng em vẫn không bỏ qua được,
+// có gì cô xem giúp em với ạ
 
-        System.out.println("Test case successfully");
+//        WebElement closeAds = wait.until(ExpectedConditions.visibilityOfElementLocated(
+//                By.xpath("//span[text()=\"Rhys Cote\"]/ancestor::div[@class='Concierge-Modal-Portal']/descendant::button[@data-test-id='ModalCloseButton']")));
+//        System.out.println(closeAds.isDisplayed());
+//        closeAds.click();
+//        System.out.println("Closed Ads");
+
+        wait.until(ExpectedConditions.not(ExpectedConditions.titleIs(pageTitle1)));
+
+        String pageTitle2 = driver.getTitle();
+        if (Objects.equals(pageTitle2, "Thank you")) {
+            System.out.println("Test case successfully");
+        } else {
+            System.out.println(pageTitle2);
+        }
 
         driver.quit();
     }
