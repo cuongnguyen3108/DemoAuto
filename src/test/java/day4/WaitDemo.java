@@ -18,7 +18,7 @@ public class WaitDemo {
         try {
             driver.get("https://saucelabs.com/request-demo");
 
-            WebElement inputEmail = WaitElement.getElement(driver,By.xpath("//input[@id=\"Email\"]"),20);
+            WebElement inputEmail = WaitElement.getElementVisible(driver,By.xpath("//input[@id=\"Email\"]"),20);
 //            WebElement inputEmail = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id=\"Email1\"]")));
             inputEmail.sendKeys("john.doe@yourcompany.com");
 

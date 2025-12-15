@@ -9,8 +9,20 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class WaitElement {
-    public static WebElement getElement(WebDriver driver, By locator, int seconds) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+
+    public static WebElement getElementVisible(WebDriver driver, By by, int seconds) {
+        return new WebDriverWait(driver, Duration.ofSeconds(seconds))
+                .until(ExpectedConditions.visibilityOfElementLocated(by));
     }
+
+    public static WebElement getElementPresent(WebDriver driver, By by, int seconds) {
+        return new WebDriverWait(driver, Duration.ofSeconds(seconds))
+                .until(ExpectedConditions.presenceOfElementLocated(by));
+    }
+
+    public static WebElement getElementClickable(WebDriver driver, By by, int seconds) {
+        return new WebDriverWait(driver, Duration.ofSeconds(seconds))
+                .until(ExpectedConditions.elementToBeClickable(by));
+    }
+
 }

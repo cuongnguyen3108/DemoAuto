@@ -13,7 +13,7 @@ public class Demo5 {
         driver.manage().window().maximize();
         try {
             driver.get("https://saucelabs.com/request-demo");
-            WebElement inputInterest = WaitElement.getElement(driver, By.xpath("//select[@id=\"Solution_Interest__c\"]"),20);
+            WebElement inputInterest = WaitElement.getElementVisible(driver, By.xpath("//select[@id=\"Solution_Interest__c\"]"),20);
             JavascriptExecutor js = (JavascriptExecutor) driver;
             js.executeScript("arguments[0].value='Crash & Error Reporting';", inputInterest);
             Thread.sleep(5000);

@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import vn.devpro.assignment67.utils.ElementValidate;
+import vn.devpro.assignment67.utils.WaitElement;
 
 import java.time.Duration;
 import java.util.List;
@@ -15,15 +17,13 @@ public class UnHappyTestCase {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://saucelabs.com/request-demo");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
-        WebElement inputEmail = driver.findElement(By.xpath("//input[@id=\"Email\"]"));
+        WebElement inputEmail = WaitElement.getElementVisible(driver, By.xpath("//input[@id=\"Email\"]"), 5);
         inputEmail.sendKeys("john.doe@yourcompany.com");
-
-        WebElement btnSubmit = driver.findElement(By.xpath("//button[@class='mktoButton']"));
+        WebElement btnSubmit = WaitElement.getElementVisible(driver, By.xpath("//button[@class=\"mktoButton\"]"), 5);
         btnSubmit.click();
 
-        String msgEmail = validate(inputEmail, "Email");
+        String msgEmail = ElementValidate.validate(inputEmail, "Email");
         if (msgEmail.contains("Must be valid email")) {
             System.out.println(msgEmail);
             driver.close();
@@ -32,55 +32,46 @@ public class UnHappyTestCase {
         } else {
             System.out.println(msgEmail);
         }
-        WebElement inputFirstName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id=\"FirstName\"]")));
+        WebElement inputFirstName = WaitElement.getElementVisible(driver, By.xpath("//input[@id=\"FirstName\"]"), 15);
         inputFirstName.sendKeys("nguyen");
-        WebElement inputLastName = driver.findElement(By.xpath("//input[@id=\"LastName\"]"));
+        WebElement inputLastName = WaitElement.getElementVisible(driver, By.xpath("//input[@id=\"LastName\"]"), 5);
         inputLastName.sendKeys("cuong");
-        WebElement inputPhone = driver.findElement(By.xpath("//input[@id=\"Phone\"]"));
+        WebElement inputPhone = WaitElement.getElementVisible(driver, By.xpath("//input[@id=\"Phone\"]"), 5);
 //        inputPhone.sendKeys("0379093127");
-        WebElement selectCountry = driver.findElement(By.xpath("//option[@value='Vietnam']"));
+
+        WebElement selectCountry = WaitElement.getElementVisible(driver, By.xpath("//option[@value='Vietnam']"), 15);
         selectCountry.click();
 
-        WebElement inputCompany = driver.findElement(By.xpath("//input[@id=\"Company\"]"));
+        WebElement inputCompany = WaitElement.getElementVisible(driver, By.xpath("//input[@id=\"Company\"]"), 5);
         inputCompany.sendKeys("Vnback");
 
-        WebElement selectInterest = driver.findElement(By.xpath("//option[@value=\"Scalable Test Automation\"]"));
+        WebElement selectInterest = WaitElement.getElementVisible(driver, By.xpath("//option[@value=\"Scalable Test Automation\"]"), 5);
         selectInterest.click();
 
-        WebElement areaComment = driver.findElement(By.xpath("//textarea[@id=\"Sales_Contact_Comments__c\"]"));
+        WebElement areaComment = WaitElement.getElementVisible(driver, By.xpath("//textarea[@id=\"Sales_Contact_Comments__c\"]"), 5);
         areaComment.sendKeys("This is the test content");
 
-        WebElement checkbox = driver.findElement(By.xpath("//input[@id='mktoCheckbox_47208_0']"));
+        WebElement checkbox = WaitElement.getElementVisible(driver,By.xpath("//label[@id=\"LblmktoCheckbox_47208_0\"]"), 15);
         checkbox.click();
+
 
         btnSubmit.click();
 
-        String msgFirstName = validate(inputFirstName, "FirstName");
+        String msgFirstName = ElementValidate.validate(inputFirstName, "FirstName");
         System.out.println(msgFirstName);
-        String msgLastName = validate(inputLastName, "LastName");
+        String msgLastName =ElementValidate.validate(inputLastName, "LastName");
         System.out.println(msgLastName);
-        String msgPhone = validate(inputPhone, "Phone");
+        String msgPhone = ElementValidate.validate(inputPhone, "Phone");
         System.out.println(msgPhone);
-        String msgCountry = validate(selectCountry, "Country");
+        String msgCountry = ElementValidate.validate(selectCountry, "Country");
         System.out.println(msgCountry);
-        String msgCompany = validate(inputCompany, "Company");
+        String msgCompany = ElementValidate.validate(inputCompany, "Company");
         System.out.println(msgCompany);
-        String msgInterest = validate(selectInterest, "Interest");
+        String msgInterest = ElementValidate.validate(selectInterest, "Interest");
         System.out.println(msgInterest);
         driver.close();
         driver.quit();
     }
 
-    public static String validate(WebElement field, String fieldName) {
 
-        List<WebElement> errors = field.findElements(
-                By.xpath("./ancestor::div[contains(@class,'mktoFieldWrap')]/div[contains(@class,'mktoError')]")
-        );
-
-        if (!errors.isEmpty()) {
-            return "❌ Error " + fieldName + ": " + errors.get(0).getText();
-        }
-
-        return "✅ Field " + fieldName + ": " + field.getAttribute("value");
-    }
 }
