@@ -74,7 +74,7 @@ public class UnHappyTestCase {
     public static String validate(WebElement field, String fieldName) {
 
         List<WebElement> errors = field.findElements(
-                By.xpath("./ancestor::div[contains(@class,'mktoFieldWrap')]//div[contains(@class,'mktoError')]")
+                By.xpath("./ancestor::div[contains(@class,'mktoFieldWrap')]/div[contains(@class,'mktoError')]")
         );
 
         if (!errors.isEmpty()) {
