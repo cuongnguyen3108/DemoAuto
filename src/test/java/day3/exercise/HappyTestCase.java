@@ -1,4 +1,4 @@
-package day3.Exercise;
+package day3.exercise;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
