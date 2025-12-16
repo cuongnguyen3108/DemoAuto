@@ -1,19 +1,14 @@
 package day3.Exercise;
 
-import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import vn.devpro.assignment67.utils.Ads;
 import vn.devpro.assignment67.utils.ElementValidate;
 import vn.devpro.assignment67.utils.WaitElement;
 
-import java.time.Duration;
-import java.util.List;
 import java.util.Objects;
 
 public class HappyTestCase {
@@ -88,40 +83,6 @@ public class HappyTestCase {
         }
         driver.close();
         driver.quit();
-    }
-
-    public static void closeModalSmart(WebDriver driver, int timeoutSec) {
-        long end = System.currentTimeMillis() + timeoutSec * 1000;
-
-        while (System.currentTimeMillis() < end) {
-            try {
-                // 1. thử ở document chính
-                ((JavascriptExecutor) driver).executeScript("""
-                var btn = document.querySelector("button[data-test-id='ModalCloseButton']");
-                if (btn) { btn.click(); return; }
-            """);
-
-               //  2. duyệt tất cả iframe
-                List<WebElement> iframes = driver.findElements(By.tagName("iframe"));
-
-                for (WebElement iframe : iframes) {
-                    try {
-                        driver.switchTo().frame(iframe);
-
-                        ((JavascriptExecutor) driver).executeScript("""
-                        var btn = document.querySelector("button[data-test-id='ModalCloseButton']");
-                        if (btn) btn.click();
-                    """);
-
-                        driver.switchTo().defaultContent();
-                    } catch (Exception e) {
-                        driver.switchTo().defaultContent();
-                    }
-                }
-
-                Thread.sleep(300);
-            } catch (Exception ignored) {}
-        }
     }
 
 }
