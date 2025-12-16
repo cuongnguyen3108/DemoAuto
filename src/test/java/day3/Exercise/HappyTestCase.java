@@ -18,13 +18,11 @@ public class HappyTestCase {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://saucelabs.com/request-demo");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
         String pageTitle1 = driver.getTitle();
 
-        WebElement inputEmail = WaitElement.getElementVisible(driver, By.xpath("//input[@id=\"Email\"]"), 10);
+        WebElement inputEmail = WaitElement.visible(driver, By.xpath("//input[@id=\"Email\"]"), 10);
         inputEmail.sendKeys("john.doe@yourcompany.com");
-        WebElement btnSubmit = WaitElement.getElementVisible(driver, By.xpath("//button[@class=\"mktoButton\"]"), 10);
+        WebElement btnSubmit = WaitElement.visible(driver, By.xpath("//button[@class=\"mktoButton\"]"), 10);
         btnSubmit.click();
         String msgEmail = ElementValidate.validate(inputEmail, "Email");
         if (msgEmail.contains("Must be valid email")) {
@@ -35,26 +33,26 @@ public class HappyTestCase {
         } else {
             System.out.println(msgEmail);
         }
-        WebElement inputFirstName = WaitElement.getElementVisible(driver, By.xpath("//input[@id=\"FirstName\"]"), 15);
+        WebElement inputFirstName = WaitElement.visible(driver, By.xpath("//input[@id=\"FirstName\"]"), 15);
         inputFirstName.sendKeys("nguyen");
-        WebElement inputLastName = WaitElement.getElementVisible(driver, By.xpath("//input[@id=\"LastName\"]"), 10);
+        WebElement inputLastName = WaitElement.visible(driver, By.xpath("//input[@id=\"LastName\"]"), 10);
         inputLastName.sendKeys("cuong");
-        WebElement inputPhone = WaitElement.getElementVisible(driver, By.xpath("//input[@id=\"Phone\"]"), 10);
+        WebElement inputPhone = WaitElement.visible(driver, By.xpath("//input[@id=\"Phone\"]"), 10);
         inputPhone.sendKeys("0379093127");
 
-        WebElement selectCountry = WaitElement.getElementVisible(driver, By.xpath("//option[@value='Vietnam']"), 15);
+        WebElement selectCountry = WaitElement.visible(driver, By.xpath("//option[@value='Vietnam']"), 15);
         selectCountry.click();
 
-        WebElement inputCompany = WaitElement.getElementVisible(driver, By.xpath("//input[@id=\"Company\"]"), 10);
+        WebElement inputCompany = WaitElement.visible(driver, By.xpath("//input[@id=\"Company\"]"), 10);
         inputCompany.sendKeys("Vnback");
 
-        WebElement selectInterest = WaitElement.getElementVisible(driver, By.xpath("//option[@value=\"Scalable Test Automation\"]"), 10);
+        WebElement selectInterest = WaitElement.visible(driver, By.xpath("//option[@value=\"Scalable Test Automation\"]"), 10);
         selectInterest.click();
 
-        WebElement areaComment = WaitElement.getElementVisible(driver, By.xpath("//textarea[@id=\"Sales_Contact_Comments__c\"]"), 10);
+        WebElement areaComment = WaitElement.visible(driver, By.xpath("//textarea[@id=\"Sales_Contact_Comments__c\"]"), 10);
         areaComment.sendKeys("This is the test content");
 
-        WebElement checkbox = WaitElement.getElementVisible(driver, By.xpath("//label[@id=\"LblmktoCheckbox_47208_0\"]"), 15);
+        WebElement checkbox = WaitElement.visible(driver, By.xpath("//label[@id=\"LblmktoCheckbox_47208_0\"]"), 15);
         checkbox.click();
 
         btnSubmit.click();
@@ -70,17 +68,19 @@ public class HappyTestCase {
         System.out.println(msgCompany);
         String msgInterest = ElementValidate.validate(selectInterest, "Interest");
         System.out.println(msgInterest);
-
-        WebElement closeAds = WaitElement.getElementPresent(
+        WaitElement.waitFor(
                 driver,
-                By.xpath("//span[text()=\"Rhys Cote\"]/ancestor::div[@class='Concierge-Modal-Portal']/descendant::button[@data-test-id='ModalCloseButton']"),
-                35
+                ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".loading")),
+                30
         );
+        closeModalSmart(driver, 10);
 
-        closeAds.click();
         System.out.println("Closed Ads");
-
-        wait.until(ExpectedConditions.not(ExpectedConditions.titleIs(pageTitle1)));
+        WaitElement.waitFor(
+                driver,
+                ExpectedConditions.not(ExpectedConditions.titleIs(pageTitle1)),
+                30
+        );
 
         String pageTitle2 = driver.getTitle();
         if (Objects.equals(pageTitle2, "Thank you")) {
@@ -90,6 +90,19 @@ public class HappyTestCase {
         }
         driver.close();
         driver.quit();
+    }
+    public static void closeModalSmart(WebDriver driver, int timeoutSec) {
+        long end = System.currentTimeMillis() + timeoutSec * 1000;
+
+        while (System.currentTimeMillis() < end) {
+            try {
+                ((JavascriptExecutor) driver).executeScript("""
+                var btn = document.querySelector("button[data-test-id='ModalCloseButton']");
+                if (btn) btn.click();
+            """);
+                Thread.sleep(300);
+            } catch (Exception ignored) {}
+        }
     }
 
 }

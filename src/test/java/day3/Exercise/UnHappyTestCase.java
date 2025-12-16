@@ -4,13 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import vn.devpro.assignment67.utils.ElementValidate;
 import vn.devpro.assignment67.utils.WaitElement;
-
-import java.time.Duration;
-import java.util.List;
 
 public class UnHappyTestCase {
     public static void main(String[] args) {
@@ -18,9 +13,9 @@ public class UnHappyTestCase {
         driver.manage().window().maximize();
         driver.get("https://saucelabs.com/request-demo");
 
-        WebElement inputEmail = WaitElement.getElementVisible(driver, By.xpath("//input[@id=\"Email\"]"), 5);
+        WebElement inputEmail = WaitElement.visible(driver, By.xpath("//input[@id=\"Email\"]"), 5);
         inputEmail.sendKeys("john.doe@yourcompany.com");
-        WebElement btnSubmit = WaitElement.getElementVisible(driver, By.xpath("//button[@class=\"mktoButton\"]"), 5);
+        WebElement btnSubmit = WaitElement.visible(driver, By.xpath("//button[@class=\"mktoButton\"]"), 5);
         btnSubmit.click();
 
         String msgEmail = ElementValidate.validate(inputEmail, "Email");
@@ -32,26 +27,26 @@ public class UnHappyTestCase {
         } else {
             System.out.println(msgEmail);
         }
-        WebElement inputFirstName = WaitElement.getElementVisible(driver, By.xpath("//input[@id=\"FirstName\"]"), 15);
+        WebElement inputFirstName = WaitElement.visible(driver, By.xpath("//input[@id=\"FirstName\"]"), 15);
         inputFirstName.sendKeys("nguyen");
-        WebElement inputLastName = WaitElement.getElementVisible(driver, By.xpath("//input[@id=\"LastName\"]"), 5);
+        WebElement inputLastName = WaitElement.visible(driver, By.xpath("//input[@id=\"LastName\"]"), 5);
         inputLastName.sendKeys("cuong");
-        WebElement inputPhone = WaitElement.getElementVisible(driver, By.xpath("//input[@id=\"Phone\"]"), 5);
+        WebElement inputPhone = WaitElement.visible(driver, By.xpath("//input[@id=\"Phone\"]"), 5);
 //        inputPhone.sendKeys("0379093127");
 
-        WebElement selectCountry = WaitElement.getElementVisible(driver, By.xpath("//option[@value='Vietnam']"), 15);
+        WebElement selectCountry = WaitElement.visible(driver, By.xpath("//option[@value='Vietnam']"), 15);
         selectCountry.click();
 
-        WebElement inputCompany = WaitElement.getElementVisible(driver, By.xpath("//input[@id=\"Company\"]"), 5);
+        WebElement inputCompany = WaitElement.visible(driver, By.xpath("//input[@id=\"Company\"]"), 5);
         inputCompany.sendKeys("Vnback");
 
-        WebElement selectInterest = WaitElement.getElementVisible(driver, By.xpath("//option[@value=\"Scalable Test Automation\"]"), 5);
+        WebElement selectInterest = WaitElement.visible(driver, By.xpath("//option[@value=\"Scalable Test Automation\"]"), 5);
         selectInterest.click();
 
-        WebElement areaComment = WaitElement.getElementVisible(driver, By.xpath("//textarea[@id=\"Sales_Contact_Comments__c\"]"), 5);
+        WebElement areaComment = WaitElement.visible(driver, By.xpath("//textarea[@id=\"Sales_Contact_Comments__c\"]"), 5);
         areaComment.sendKeys("This is the test content");
 
-        WebElement checkbox = WaitElement.getElementVisible(driver,By.xpath("//label[@id=\"LblmktoCheckbox_47208_0\"]"), 15);
+        WebElement checkbox = WaitElement.visible(driver,By.xpath("//label[@id=\"LblmktoCheckbox_47208_0\"]"), 15);
         checkbox.click();
 
 
