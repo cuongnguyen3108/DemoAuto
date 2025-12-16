@@ -1,21 +1,25 @@
 package vn.devpro.assignment67.utils;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
 public class ElementValidate {
-    public static String validate(WebElement field, String fieldName) {
+    public static String validate(WebDriver driver, WebElement field, String fieldName, By errorLocator) {
 
-        List<WebElement> errors = field.findElements(
-                By.xpath("./ancestor::div[contains(@class,'mktoFieldWrap')]/div[contains(@class,'mktoError')]")
-        );
+        List<WebElement> errors = (field != null) ? field.findElements(errorLocator) : driver.findElements(errorLocator);
 
         if (!errors.isEmpty()) {
             return "❌ Error " + fieldName + ": " + errors.get(0).getText();
         }
 
-        return "✅ Field " + fieldName + ": " + field.getAttribute("value");
+        if (field != null) {
+            return "✅ Field " + fieldName + ": " + field.getAttribute("value");
+        }
+
+        return "✅ Field " + fieldName + ": successfully";
     }
+
 }

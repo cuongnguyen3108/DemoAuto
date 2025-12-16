@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class WaitElement {
 
@@ -29,6 +30,18 @@ public class WaitElement {
     ) {
         return new WebDriverWait(driver, Duration.ofSeconds(seconds))
                 .until(condition);
+    }
+
+    public static List<WebElement> visibleElements(
+            WebDriver driver,
+            By by,
+            int seconds
+    ) {
+        return waitFor(
+                driver,
+                ExpectedConditions.visibilityOfAllElementsLocatedBy(by),
+                seconds
+        );
     }
 
 }

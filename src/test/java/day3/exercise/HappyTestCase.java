@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import vn.devpro.assignment67.utils.Ads;
 import vn.devpro.assignment67.utils.ElementValidate;
 import vn.devpro.assignment67.utils.WaitElement;
@@ -12,17 +13,18 @@ import vn.devpro.assignment67.utils.WaitElement;
 import java.util.Objects;
 
 public class HappyTestCase {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://saucelabs.com/request-demo");
         String pageTitle1 = driver.getTitle();
+        By error = By.xpath("./ancestor::div[contains(@class,'mktoFieldWrap')]/div[contains(@class,'mktoError')]");
 
         WebElement inputEmail = WaitElement.visible(driver, By.xpath("//input[@id=\"Email\"]"), 10);
         inputEmail.sendKeys("john.doe@yourcompany.com");
         WebElement btnSubmit = WaitElement.visible(driver, By.xpath("//button[@class=\"mktoButton\"]"), 10);
         btnSubmit.click();
-        String msgEmail = ElementValidate.validate(inputEmail, "Email");
+        String msgEmail = ElementValidate.validate(driver, inputEmail, "Email", error);
         if (msgEmail.contains("Must be valid email")) {
             System.out.println(msgEmail);
             driver.close();
@@ -54,30 +56,25 @@ public class HappyTestCase {
         checkbox.click();
 
         btnSubmit.click();
-        String msgFirstName = ElementValidate.validate(inputFirstName, "FirstName");
+        String msgFirstName = ElementValidate.validate(driver, inputFirstName, "FirstName", error);
         System.out.println(msgFirstName);
-        String msgLastName =ElementValidate.validate(inputLastName, "LastName");
+        String msgLastName = ElementValidate.validate(driver, inputLastName, "LastName", error);
         System.out.println(msgLastName);
-        String msgPhone = ElementValidate.validate(inputPhone, "Phone");
+        String msgPhone = ElementValidate.validate(driver, inputPhone, "Phone", error);
         System.out.println(msgPhone);
-        String msgCountry = ElementValidate.validate(selectCountry, "Country");
+        String msgCountry = ElementValidate.validate(driver, selectCountry, "Country", error);
         System.out.println(msgCountry);
-        String msgCompany = ElementValidate.validate(inputCompany, "Company");
+        String msgCompany = ElementValidate.validate(driver, inputCompany, "Company", error);
         System.out.println(msgCompany);
-        String msgInterest = ElementValidate.validate(selectInterest, "Interest");
+        String msgInterest = ElementValidate.validate(driver, selectInterest, "Interest", error);
         System.out.println(msgInterest);
-
-        Ads.close(driver, 10);
-
-        WaitElement.waitFor(
-                driver,
-                ExpectedConditions.not(ExpectedConditions.titleIs(pageTitle1)),
-                30
-        );
+        Thread.sleep(5000);
+        Ads.close(driver, 15);
+        Thread.sleep(5000);
 
         String pageTitle2 = driver.getTitle();
         if (Objects.equals(pageTitle2, "Thank you")) {
-        System.out.println("Test case successfully");
+            System.out.println("✅ Test case successfully");
         } else {
             System.out.println(pageTitle2);
         }

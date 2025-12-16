@@ -12,13 +12,14 @@ public class UnHappyTestCase {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://saucelabs.com/request-demo");
+        By error = By.xpath("./ancestor::div[contains(@class,'mktoFieldWrap')]/div[contains(@class,'mktoError')]");
 
         WebElement inputEmail = WaitElement.visible(driver, By.xpath("//input[@id=\"Email\"]"), 5);
         inputEmail.sendKeys("john.doe@yourcompany.com");
         WebElement btnSubmit = WaitElement.visible(driver, By.xpath("//button[@class=\"mktoButton\"]"), 5);
         btnSubmit.click();
 
-        String msgEmail = ElementValidate.validate(inputEmail, "Email");
+        String msgEmail = ElementValidate.validate(driver,inputEmail, "Email",error);
         if (msgEmail.contains("Must be valid email")) {
             System.out.println(msgEmail);
             driver.close();
@@ -52,17 +53,17 @@ public class UnHappyTestCase {
 
         btnSubmit.click();
 
-        String msgFirstName = ElementValidate.validate(inputFirstName, "FirstName");
+        String msgFirstName = ElementValidate.validate(driver,inputFirstName, "FirstName",error);
         System.out.println(msgFirstName);
-        String msgLastName =ElementValidate.validate(inputLastName, "LastName");
+        String msgLastName =ElementValidate.validate(driver,inputLastName, "LastName",error);
         System.out.println(msgLastName);
-        String msgPhone = ElementValidate.validate(inputPhone, "Phone");
+        String msgPhone = ElementValidate.validate(driver,inputPhone, "Phone",error);
         System.out.println(msgPhone);
-        String msgCountry = ElementValidate.validate(selectCountry, "Country");
+        String msgCountry = ElementValidate.validate(driver,selectCountry, "Country",error);
         System.out.println(msgCountry);
-        String msgCompany = ElementValidate.validate(inputCompany, "Company");
+        String msgCompany = ElementValidate.validate(driver,inputCompany, "Company",error);
         System.out.println(msgCompany);
-        String msgInterest = ElementValidate.validate(selectInterest, "Interest");
+        String msgInterest = ElementValidate.validate(driver,selectInterest, "Interest",error);
         System.out.println(msgInterest);
         driver.close();
         driver.quit();
