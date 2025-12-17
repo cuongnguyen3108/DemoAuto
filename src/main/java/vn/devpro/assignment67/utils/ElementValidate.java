@@ -12,7 +12,7 @@ public class ElementValidate {
         List<WebElement> errors = (field != null) ? field.findElements(errorLocator) : driver.findElements(errorLocator);
 
         if (!errors.isEmpty()) {
-            return "❌ Error " + fieldName + ": " + errors.get(0).getText();
+            return "❌ Error " + fieldName + ": '" + errors.get(0).getText()+"'";
         }
 
         if (field != null) {
