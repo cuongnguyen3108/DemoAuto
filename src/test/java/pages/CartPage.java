@@ -8,10 +8,15 @@ import vn.devpro.assignment67.utils.WaitElement;
 
 import java.util.List;
 
-public class CartPage extends BasePage{
+public class CartPage extends BasePage {
 
     public CartPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    protected String getExpectedPath() {
+        return "/cart.html";
     }
 
     public void yourCart(List<Product> products) {
@@ -75,8 +80,4 @@ public class CartPage extends BasePage{
         btnCheckout.click();
     }
 
-    @Override
-    protected String getExpectedPath() {
-        return "/checkout-step-one.html";
-    }
 }

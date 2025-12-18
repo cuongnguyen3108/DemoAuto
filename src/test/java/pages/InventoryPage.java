@@ -18,7 +18,7 @@ public class InventoryPage extends BasePage {
 
     @Override
     protected String getExpectedPath() {
-        return "/cart.html";
+        return "/inventory.html";
     }
 
     public List<Product> addProductToCart(int quantity) {

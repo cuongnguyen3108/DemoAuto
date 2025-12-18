@@ -14,7 +14,7 @@ public class LoginPage extends BasePage {
 
     @Override
     protected String getExpectedPath() {
-        return "/inventory.html";
+        return "/";
     }
 
     public void login(String username, String password) {

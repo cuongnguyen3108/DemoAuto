@@ -16,7 +16,7 @@ public class CheckoutOverviewPage extends BasePage {
 
     @Override
     protected String getExpectedPath() {
-        return "/checkout-complete.html";
+        return "/checkout-step-two.html";
     }
 
     public void finish(List<Product> products) {

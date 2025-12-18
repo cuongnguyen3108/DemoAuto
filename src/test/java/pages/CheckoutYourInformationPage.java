@@ -13,10 +13,10 @@ public class CheckoutYourInformationPage extends BasePage {
 
     @Override
     protected String getExpectedPath() {
-        return "/checkout-step-two.html";
+        return "/checkout-step-one.html";
     }
 
-    public void fillInformation(String firstName, String lastName,String postalCode) {
+    public void fillInformation(String firstName, String lastName, String postalCode) {
         System.out.println("\n\nPage Checkout: Your Information");
 
         WebElement inputFirstName = WaitElement.visible(driver, By.id("first-name"), 10);

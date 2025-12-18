@@ -16,66 +16,61 @@ public class ProductPurchaseTestCase {
         WebDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.get("https://www.saucedemo.com/");
-        String pageUrlLogin = driver.getCurrentUrl();
-        System.out.println("Url Page: " + pageUrlLogin);
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.login("standard_user", "secret_sauce");
 
-        String pageUrlProducts = driver.getCurrentUrl();
-        System.out.println("Url Page: " + pageUrlProducts);
+        LoginPage loginPage = new LoginPage(driver);
         if (!loginPage.hasRedirectedTo(10)) {
             driver.quit();
             return;
         }
-
-        InventoryPage inventoryPage = new InventoryPage(driver);
-        List<Product> products = inventoryPage.addProductToCart(3);
+        loginPage.login("standard_user", "secret_sauce");
         Thread.sleep(5000);
 
-        String pageUrlYourCart = driver.getCurrentUrl();
-        System.out.println("Url Page: " + pageUrlYourCart);
+        InventoryPage inventoryPage = new InventoryPage(driver);
         if (!inventoryPage.hasRedirectedTo(10)) {
             driver.quit();
             return;
         }
-        CartPage cartPage = new CartPage(driver);
-        cartPage.yourCart(products);
+        List<Product> products = inventoryPage.addProductToCart(3);
         Thread.sleep(5000);
 
-        String pageUrlCheckoutYourInformation = driver.getCurrentUrl();
-        System.out.println("Url Page: " + pageUrlCheckoutYourInformation);
+
+        CartPage cartPage = new CartPage(driver);
         if (!cartPage.hasRedirectedTo(10)) {
             driver.quit();
             return;
         }
-        CheckoutYourInformationPage yourInformationPage = new CheckoutYourInformationPage(driver);
-        yourInformationPage.fillInformation("cuong","nguyen","12345");
+        cartPage.yourCart(products);
         Thread.sleep(5000);
 
-        String pageUrlCheckoutOverview = driver.getCurrentUrl();
-        System.out.println("Url Page: " + pageUrlCheckoutOverview);
+
+        CheckoutYourInformationPage yourInformationPage = new CheckoutYourInformationPage(driver);
         if (!yourInformationPage.hasRedirectedTo(10)) {
             driver.quit();
             return;
         }
-        CheckoutOverviewPage overviewPage = new CheckoutOverviewPage(driver);
-        overviewPage.finish(products);
+        yourInformationPage.fillInformation("cuong", "nguyen", "12345");
         Thread.sleep(5000);
 
-        String pageUrlCheckoutComplete = driver.getCurrentUrl();
-        System.out.println("Url Page: " + pageUrlCheckoutComplete);
+
+        CheckoutOverviewPage overviewPage = new CheckoutOverviewPage(driver);
         if (!overviewPage.hasRedirectedTo(10)) {
             driver.quit();
             return;
         }
+        overviewPage.finish(products);
+        Thread.sleep(5000);
+
+
         CheckoutCompletePage completePage = new CheckoutCompletePage(driver);
+        if (!completePage.hasRedirectedTo(10)) {
+            driver.quit();
+            return;
+        }
         completePage.complete();
         Thread.sleep(5000);
 
-        String pageUrlFinal = driver.getCurrentUrl();
-        System.out.println("Url Page: " + pageUrlFinal);
         System.out.println("\n");
-        if (!completePage.hasRedirectedTo(10)) {
+        if (!inventoryPage.hasRedirectedTo(10)) {
             driver.quit();
             return;
         }

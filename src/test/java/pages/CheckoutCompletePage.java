@@ -13,7 +13,7 @@ public class CheckoutCompletePage extends BasePage {
 
     @Override
     protected String getExpectedPath() {
-        return "/inventory.html";
+        return "/checkout-complete.html";
     }
 
     public void complete() {
