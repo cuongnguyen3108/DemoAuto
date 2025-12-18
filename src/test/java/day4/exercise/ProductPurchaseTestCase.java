@@ -1,4 +1,4 @@
-package day4.Exercise;
+package day4.exercise;
 
 import base.BaseTest;
 import org.openqa.selenium.*;
@@ -28,11 +28,7 @@ public class ProductPurchaseTestCase extends BaseTest {
 
         String pageUrlProducts = driver.getCurrentUrl();
         System.out.println("Url Page: " + pageUrlProducts);
-        assert pageUrlProducts != null;
-        if (isPageLoaded(pageUrlProducts, "/inventory.html")) {
-            System.out.println("✅ Login successful - Inventory page loaded");
-        } else {
-            System.out.println("❌ Login failed - Current URL: " + pageUrlProducts);
+        if (!isPageRedirected(driver, "/inventory.html")) {
             driver.close();
             driver.quit();
             return;
@@ -41,11 +37,7 @@ public class ProductPurchaseTestCase extends BaseTest {
         Thread.sleep(5000);
         String pageUrlYourCart = driver.getCurrentUrl();
         System.out.println("Url Page: " + pageUrlYourCart);
-        assert pageUrlYourCart != null;
-        if (isPageLoaded(pageUrlYourCart, "/cart.html")) {
-            System.out.println("✅ Page redirection successful -Your Cart page loaded");
-        } else {
-            System.out.println("❌ Page redirection failed - Current URL: " + pageUrlYourCart);
+        if (!isPageRedirected(driver, "/cart.html")) {
             driver.close();
             driver.quit();
             return;
@@ -54,18 +46,43 @@ public class ProductPurchaseTestCase extends BaseTest {
         Thread.sleep(5000);
         String pageUrlCheckoutYourInformation = driver.getCurrentUrl();
         System.out.println("Url Page: " + pageUrlCheckoutYourInformation);
-        assert pageUrlCheckoutYourInformation != null;
-        if (isPageLoaded(pageUrlCheckoutYourInformation, "/checkout-step-one.html")) {
-            System.out.println("✅ Page redirection successful -Your Cart page loaded");
-        } else {
-            System.out.println("❌ Page redirection failed - Current URL: " + pageUrlCheckoutYourInformation);
+        if (!isPageRedirected(driver, "/checkout-step-one.html")) {
             driver.close();
             driver.quit();
             return;
         }
 
-        checkoutYourInformation(driver,products);
-//        driver.quit();
+        checkoutYourInformation(driver);
+        Thread.sleep(5000);
+        String pageUrlCheckoutOverview = driver.getCurrentUrl();
+        System.out.println("Url Page: " + pageUrlCheckoutOverview);
+        if (!isPageRedirected(driver, "/checkout-step-two.html")) {
+            driver.close();
+            driver.quit();
+            return;
+        }
+        checkoutOverview(driver, products);
+        Thread.sleep(5000);
+        String pageUrlCheckoutComplete = driver.getCurrentUrl();
+        System.out.println("Url Page: " + pageUrlCheckoutComplete);
+        if (!isPageRedirected(driver, "/checkout-complete.html")) {
+            driver.close();
+            driver.quit();
+            return;
+        }
+        checkoutComplete(driver);
+
+        Thread.sleep(5000);
+        String pageUrlFinal = driver.getCurrentUrl();
+        System.out.println("Url Page: " + pageUrlFinal);
+        System.out.println("\n");
+        if (!isPageRedirected(driver, "/inventory.html")) {
+            driver.close();
+            driver.quit();
+            return;
+        }
+        System.out.println("✅ Text case successful");
+        driver.quit();
     }
 
     public static void login(WebDriver driver) {
@@ -89,7 +106,7 @@ public class ProductPurchaseTestCase extends BaseTest {
         WebElement sortProduct = WaitElement.clickable(driver, By.xpath("//select[@class='product_sort_container']"), 5);
         Select selectSort = new Select(sortProduct);
         selectSort.selectByValue("hilo");
-//
+
         List<WebElement> listProduct = WaitElement.visibleElements(driver, By.xpath("//div[@class='inventory_item']"), 10);
         List<Product> products = new ArrayList<>();
         int q = Math.min(listProduct.size(), quantity);
@@ -105,7 +122,7 @@ public class ProductPurchaseTestCase extends BaseTest {
             String priceNumber = priceProduct.getText().replace("$", "");
             product.setPrice(Double.parseDouble(priceNumber));
 
-            int quantityProduct=1;
+            int quantityProduct = 1;
             product.setQuantity(quantityProduct);
             System.out.println("Quantity Product: " + quantityProduct);
 
@@ -159,17 +176,27 @@ public class ProductPurchaseTestCase extends BaseTest {
 
         }
         WebElement btnContinueShopping = WaitElement.clickable(driver, By.xpath("//button[@id=\"continue-shopping\"]"), 15);
-        btnContinueShopping.isDisplayed();
+        if (!btnContinueShopping.isDisplayed()) {
+            System.out.println("❌ Button " + btnContinueShopping.getText() + " is not displayed");
+            driver.close();
+            driver.quit();
+            return;
+        }
         System.out.println("✅ Button " + btnContinueShopping.getText() + " is displayed");
         WebElement btnCheckout = WaitElement.clickable(driver, By.xpath("//button[@id=\"checkout\" and @name=\"checkout\"]"), 15);
-        btnCheckout.isDisplayed();
+        if (!btnCheckout.isDisplayed()) {
+            System.out.println("❌ Button " + btnCheckout.getText() + " is not displayed");
+            driver.close();
+            driver.quit();
+            return;
+        }
         System.out.println("✅ Button " + btnCheckout.getText() + " is displayed");
         System.out.println("✅ Button " + btnCheckout.getText() + " is clicked");
         btnCheckout.click();
     }
 
 
-    public static void checkoutYourInformation(WebDriver driver,List<Product> products) {
+    public static void checkoutYourInformation(WebDriver driver) {
         System.out.println("\n\nPage Checkout: Your Information");
 
         WebElement inputFirstName = WaitElement.visible(driver, By.id("first-name"), 10);
@@ -182,6 +209,9 @@ public class ProductPurchaseTestCase extends BaseTest {
         btnContinue.click();
         String msg = ElementValidate.validate(driver, null, "submit", By.xpath("//div[@class='error-message-container error']/h3"));
         System.out.println(msg);
+    }
+    public static void checkoutOverview(WebDriver driver, List<Product> products) {
+        System.out.println("\n\nPage Checkout: Overview");
 
         List<WebElement> listProduct = WaitElement.visibleElements(driver, By.xpath("//div[@class='cart_item']"), 10);
         if (listProduct.size() != products.size()) {
@@ -221,6 +251,45 @@ public class ProductPurchaseTestCase extends BaseTest {
             System.out.println("Quantity Product: " + quantityProduct.getText());
         }
 
+        WebElement payment = WaitElement.visible(driver, By.xpath("//div[@class=\"summary_value_label\"]"), 10);
+        System.out.println("\nPayment Information: " + payment.getText());
+        WebElement shipping = WaitElement.visible(driver, By.xpath("//div[@class=\"summary_value_label\"]"), 10);
+        System.out.println("Shipping Information: " + shipping.getText());
+        System.out.println("Price Total");
+        WebElement subtotal = WaitElement.visible(driver, By.xpath("//div[@class=\"summary_subtotal_label\"]"), 10);
+        System.out.println(subtotal.getText());
+        WebElement tax = WaitElement.visible(driver, By.xpath("//div[@class=\"summary_tax_label\"]"), 10);
+        System.out.println(tax.getText());
+        WebElement total=WaitElement.visible(driver, By.xpath("//div[@class=\"summary_total_label\"]"), 10);
+        System.out.println(total.getText());
+        WebElement btnFinish=WaitElement.clickable(driver,By.id("finish"),10);
+        if (!btnFinish.isDisplayed()) {
+            System.out.println("❌ Button " + btnFinish.getText() + " is not displayed");
+            driver.close();
+            driver.quit();
+            return;
+        }
+        System.out.println("✅ Button " + btnFinish.getText() + " is displayed");
+        System.out.println("✅ Button " + btnFinish.getText() + " is clicked");
+        btnFinish.click();
+    }
 
+    public static void checkoutComplete(WebDriver driver) {
+        System.out.println("\n\nPage Checkout: Complete!");
+
+        WebElement completeHeader=WaitElement.visible(driver, By.xpath("//h2[@class=\"complete-header\"]"), 10);
+        System.out.println(completeHeader.getText());
+        WebElement completeText=WaitElement.visible(driver, By.xpath("//div[@class=\"complete-text\"]"), 10);
+        System.out.println(completeText.getText());
+        WebElement btnBackHome = WaitElement.clickable(driver, By.id("back-to-products"), 15);
+        if (!btnBackHome.isDisplayed()) {
+            System.out.println("❌ Button " + btnBackHome.getText() + " is not displayed");
+            driver.close();
+            driver.quit();
+            return;
+        }
+        System.out.println("✅ Button " + btnBackHome.getText() + " is displayed");
+        System.out.println("✅ Button " + btnBackHome.getText() + " is clicked");
+        btnBackHome.click();
     }
 }
