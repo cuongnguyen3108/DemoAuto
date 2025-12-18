@@ -12,7 +12,7 @@ public abstract class BasePage {
 
     protected abstract String getExpectedPath();
 
-    public boolean isPageLoaded(int timeoutSec) {
+    public boolean hasRedirectedTo(int timeoutSec) {
         try {
             return WaitElement.waitFor(driver, d -> {
                 if (d == null) return false;

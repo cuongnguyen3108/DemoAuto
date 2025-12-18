@@ -23,7 +23,7 @@ public class ProductPurchaseTestCase {
 
         String pageUrlProducts = driver.getCurrentUrl();
         System.out.println("Url Page: " + pageUrlProducts);
-        if (!loginPage.isPageLoaded(10)) {
+        if (!loginPage.hasRedirectedTo(10)) {
             driver.quit();
             return;
         }
@@ -34,7 +34,7 @@ public class ProductPurchaseTestCase {
 
         String pageUrlYourCart = driver.getCurrentUrl();
         System.out.println("Url Page: " + pageUrlYourCart);
-        if (!inventoryPage.isPageLoaded(10)) {
+        if (!inventoryPage.hasRedirectedTo(10)) {
             driver.quit();
             return;
         }
@@ -44,7 +44,7 @@ public class ProductPurchaseTestCase {
 
         String pageUrlCheckoutYourInformation = driver.getCurrentUrl();
         System.out.println("Url Page: " + pageUrlCheckoutYourInformation);
-        if (!cartPage.isPageLoaded(10)) {
+        if (!cartPage.hasRedirectedTo(10)) {
             driver.quit();
             return;
         }
@@ -54,7 +54,7 @@ public class ProductPurchaseTestCase {
 
         String pageUrlCheckoutOverview = driver.getCurrentUrl();
         System.out.println("Url Page: " + pageUrlCheckoutOverview);
-        if (!yourInformationPage.isPageLoaded(10)) {
+        if (!yourInformationPage.hasRedirectedTo(10)) {
             driver.quit();
             return;
         }
@@ -64,7 +64,7 @@ public class ProductPurchaseTestCase {
 
         String pageUrlCheckoutComplete = driver.getCurrentUrl();
         System.out.println("Url Page: " + pageUrlCheckoutComplete);
-        if (!overviewPage.isPageLoaded(10)) {
+        if (!overviewPage.hasRedirectedTo(10)) {
             driver.quit();
             return;
         }
@@ -75,7 +75,7 @@ public class ProductPurchaseTestCase {
         String pageUrlFinal = driver.getCurrentUrl();
         System.out.println("Url Page: " + pageUrlFinal);
         System.out.println("\n");
-        if (!completePage.isPageLoaded(10)) {
+        if (!completePage.hasRedirectedTo(10)) {
             driver.quit();
             return;
         }
