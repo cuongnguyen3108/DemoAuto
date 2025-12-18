@@ -77,6 +77,4 @@ public class ProductPurchaseTestCase {
         System.out.println("✅ Text case successful");
         driver.quit();
     }
-
-
 }
