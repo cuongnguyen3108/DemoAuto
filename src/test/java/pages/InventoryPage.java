@@ -50,10 +50,11 @@ public class InventoryPage extends BasePage {
             products.add(product);
         }
         WebElement totalShoppingCart = WaitElement.visible(driver, By.className("shopping_cart_badge"), 10);
+
         if (Integer.parseInt(totalShoppingCart.getText()) != q) {
-            System.out.println("The total number ofFproducts in the cart is incorrect!");
+            System.out.println("❌ The total number ofF products in the cart is incorrect!");
         } else {
-            System.out.println("The total number of products in the cart:: " + totalShoppingCart.getText());
+            System.out.println("✅ The total number of products in the cart:: " + totalShoppingCart.getText());
             totalShoppingCart.click();
         }
         return products;
