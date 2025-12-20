@@ -4,8 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import vn.devpro.assignment67.utils.Ads;
 import vn.devpro.assignment67.utils.ElementValidate;
 import vn.devpro.assignment67.utils.WaitElement;
@@ -17,7 +15,6 @@ public class HappyTestCase {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://saucelabs.com/request-demo");
-        String pageTitle1 = driver.getTitle();
         By error = By.xpath("./ancestor::div[contains(@class,'mktoFieldWrap')]/div[contains(@class,'mktoError')]");
 
         WebElement inputEmail = WaitElement.visible(driver, By.xpath("//input[@id=\"Email\"]"), 10);
@@ -27,7 +24,6 @@ public class HappyTestCase {
         String msgEmail = ElementValidate.validate(driver, inputEmail, "Email", error);
         if (msgEmail.contains("Must be valid email")) {
             System.out.println(msgEmail);
-            driver.close();
             driver.quit();
             return;
         } else {
@@ -52,7 +48,7 @@ public class HappyTestCase {
         WebElement areaComment = WaitElement.visible(driver, By.xpath("//textarea[@id=\"Sales_Contact_Comments__c\"]"), 10);
         areaComment.sendKeys("This is the test content");
 
-        WebElement checkbox = WaitElement.visible(driver, By.xpath("//label[@id=\"LblmktoCheckbox_47208_0\"]"), 15);
+        WebElement checkbox = WaitElement.present(driver, By.xpath("//div[contains(@class,\"mktoCheckboxList\")]/input"), 20);
         checkbox.click();
 
         btnSubmit.click();
@@ -68,9 +64,7 @@ public class HappyTestCase {
         System.out.println(msgCompany);
         String msgInterest = ElementValidate.validate(driver, selectInterest, "Interest", error);
         System.out.println(msgInterest);
-        Thread.sleep(5000);
         Ads.close(driver, 15);
-        Thread.sleep(5000);
 
         String pageTitle2 = driver.getTitle();
         if (Objects.equals(pageTitle2, "Thank you")) {
@@ -78,7 +72,6 @@ public class HappyTestCase {
         } else {
             System.out.println(pageTitle2);
         }
-        driver.close();
         driver.quit();
     }
 
