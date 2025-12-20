@@ -9,7 +9,7 @@ import vn.devpro.assignment67.models.Product;
 import java.util.List;
 
 public class ProductPurchaseTestCase {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args)  {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--incognito");
 
@@ -23,7 +23,6 @@ public class ProductPurchaseTestCase {
             return;
         }
         loginPage.login("standard_user", "secret_sauce");
-        Thread.sleep(5000);
 
         InventoryPage inventoryPage = new InventoryPage(driver);
         if (!inventoryPage.hasRedirectedTo(10)) {
@@ -31,7 +30,6 @@ public class ProductPurchaseTestCase {
             return;
         }
         List<Product> products = inventoryPage.addProductToCart(3);
-        Thread.sleep(5000);
 
 
         CartPage cartPage = new CartPage(driver);
@@ -40,7 +38,6 @@ public class ProductPurchaseTestCase {
             return;
         }
         cartPage.yourCart(products);
-        Thread.sleep(5000);
 
 
         CheckoutYourInformationPage yourInformationPage = new CheckoutYourInformationPage(driver);
@@ -49,7 +46,6 @@ public class ProductPurchaseTestCase {
             return;
         }
         yourInformationPage.fillInformation("cuong", "nguyen", "12345");
-        Thread.sleep(5000);
 
 
         CheckoutOverviewPage overviewPage = new CheckoutOverviewPage(driver);
@@ -58,7 +54,6 @@ public class ProductPurchaseTestCase {
             return;
         }
         overviewPage.finish(products);
-        Thread.sleep(5000);
 
 
         CheckoutCompletePage completePage = new CheckoutCompletePage(driver);
@@ -67,7 +62,6 @@ public class ProductPurchaseTestCase {
             return;
         }
         completePage.complete();
-        Thread.sleep(5000);
 
         System.out.println("\n");
         if (!inventoryPage.hasRedirectedTo(10)) {
