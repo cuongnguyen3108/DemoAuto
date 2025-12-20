@@ -29,7 +29,7 @@ public class CheckoutOverviewPage extends BasePage {
             return;
         }
         System.out.println("✅ Number of products on display: " + listProduct.size());
-
+        double sumPrice = 0.0;
         for (int i = 0; i < products.size(); i++) {
             WebElement nameProduct = listProduct.get(i).findElement(By.xpath("./descendant::div[@class=\"inventory_item_name\"]"));
             if (!products.get(i).getProductName().equals(nameProduct.getText())) {
@@ -46,6 +46,7 @@ public class CheckoutOverviewPage extends BasePage {
                 return;
             }
             System.out.println("Price Product" + (i + 1) + ": " + priceProduct.getText());
+            sumPrice += products.get(i).getPrice();
 
             WebElement quantityProduct = listProduct.get(i).findElement(By.xpath("./descendant::div[@class=\"cart_quantity\"]"));
             if (Integer.parseInt(quantityProduct.getText()) != products.get(i).getQuantity()) {
@@ -62,11 +63,22 @@ public class CheckoutOverviewPage extends BasePage {
         System.out.println("Shipping Information: " + shipping.getText());
         System.out.println("Price Total");
         WebElement subtotal = WaitElement.visible(driver, By.xpath("//div[@class=\"summary_subtotal_label\"]"), 10);
+        if (Double.parseDouble(subtotal.getText().replace("Item total: $", "")) != sumPrice) {
+            System.out.println("Item total price is incorrect");
+            return;
+        }
         System.out.println(subtotal.getText());
         WebElement tax = WaitElement.visible(driver, By.xpath("//div[@class=\"summary_tax_label\"]"), 10);
         System.out.println(tax.getText());
+        double taxPrice = Double.parseDouble(tax.getText().replace("Tax: $", ""));
+        double totalPrice = sumPrice + taxPrice;
+
         WebElement total = WaitElement.visible(driver, By.xpath("//div[@class=\"summary_total_label\"]"), 10);
         System.out.println(total.getText());
+        if (Double.parseDouble(total.getText().replace("Total: $", "")) != totalPrice) {
+            System.out.println("Total price is incorrect");
+            return;
+        }
         WebElement btnFinish = WaitElement.clickable(driver, By.id("finish"), 10);
         if (!btnFinish.isDisplayed()) {
             System.out.println("❌ Button " + btnFinish.getText() + " is not displayed");
