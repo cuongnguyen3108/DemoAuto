@@ -74,11 +74,11 @@ public class CheckoutOverviewPage extends BasePage {
         double totalPrice = sumPrice + taxPrice;
 
         WebElement total = WaitElement.visible(driver, By.xpath("//div[@class=\"summary_total_label\"]"), 10);
-        System.out.println(total.getText());
         if (Double.parseDouble(total.getText().replace("Total: $", "")) != totalPrice) {
             System.out.println("Total price is incorrect");
             return;
         }
+        System.out.println(total.getText());
         WebElement btnFinish = WaitElement.clickable(driver, By.id("finish"), 10);
         if (!btnFinish.isDisplayed()) {
             System.out.println("❌ Button " + btnFinish.getText() + " is not displayed");
