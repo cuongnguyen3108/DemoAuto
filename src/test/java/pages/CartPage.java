@@ -34,7 +34,6 @@ public class CartPage extends BasePage {
         List<WebElement> listProduct = WaitElement.visibleElements(driver, By.xpath("//div[@class='cart_item']"), 10);
         if (listProduct.size() != products.size()) {
             System.out.println("\tThe number of products displayed is incorrect; \n\t" + products.size() + " products were added, but " + listProduct.size() + " are shown.");
-            driver.close();
             driver.quit();
             return;
         }
@@ -44,7 +43,6 @@ public class CartPage extends BasePage {
             WebElement nameProduct = listProduct.get(i).findElement(By.xpath("./descendant::div[@class=\"inventory_item_name\"]"));
             if (!products.get(i).getProductName().equals(nameProduct.getText())) {
                 System.out.println("\tProduct name number " + i + 1 + " is displayed incorrectly.\n\tAdded name:" + products.get(i).getProductName() + ".\n\tDisplayed name:" + nameProduct.getText() + ".");
-                driver.close();
                 driver.quit();
                 return;
             }
@@ -53,7 +51,6 @@ public class CartPage extends BasePage {
             WebElement priceProduct = listProduct.get(i).findElement(By.xpath("./descendant::div[@class=\"inventory_item_price\"]"));
             if (!priceProduct.getText().equals("$" + products.get(i).getPrice())) {
                 System.out.println("\tProduct price number " + i + 1 + " is displayed incorrectly.\n\tAdded price:" + products.get(i).getPrice() + ".\n\tDisplayed price:" + priceProduct.getText() + ".");
-                driver.close();
                 driver.quit();
                 return;
             }
@@ -62,7 +59,6 @@ public class CartPage extends BasePage {
             WebElement quantityProduct = listProduct.get(i).findElement(By.xpath("./descendant::div[@class=\"cart_quantity\"]"));
             if (Integer.parseInt(quantityProduct.getText()) != products.get(i).getQuantity()) {
                 System.out.println("\tProduct quantity number " + i + 1 + " is displayed incorrectly.\n\tAdded quantity:" + products.get(i).getQuantity() + ".\n\tDisplayed quantity:" + quantityProduct.getText() + ".");
-                driver.close();
                 driver.quit();
                 return;
             }
@@ -72,7 +68,6 @@ public class CartPage extends BasePage {
         WebElement btnContinueShopping = WaitElement.clickable(driver, By.xpath("//button[@id=\"continue-shopping\"]"), 15);
         if (!btnContinueShopping.isDisplayed()) {
             System.out.println("❌ Button " + btnContinueShopping.getText() + " is not displayed");
-            driver.close();
             driver.quit();
             return;
         }
@@ -80,7 +75,6 @@ public class CartPage extends BasePage {
         WebElement btnCheckout = WaitElement.clickable(driver, By.xpath("//button[@id=\"checkout\" and @name=\"checkout\"]"), 15);
         if (!btnCheckout.isDisplayed()) {
             System.out.println("❌ Button " + btnCheckout.getText() + " is not displayed");
-            driver.close();
             driver.quit();
             return;
         }
