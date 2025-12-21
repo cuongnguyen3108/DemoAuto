@@ -22,6 +22,15 @@ public class CartPage extends BasePage {
     public void yourCart(List<Product> products) {
         System.out.println("\n\nPage Your Cart");
 
+        WebElement totalShoppingCart = WaitElement.visible(driver, By.className("shopping_cart_badge"), 10);
+
+        if (Integer.parseInt(totalShoppingCart.getText()) != products.size()) {
+            System.out.println("❌ The total number ofF products in the cart is incorrect!");
+        } else {
+            System.out.println("✅ The total number of products in the cart:: " + totalShoppingCart.getText());
+            totalShoppingCart.click();
+        }
+
         List<WebElement> listProduct = WaitElement.visibleElements(driver, By.xpath("//div[@class='cart_item']"), 10);
         if (listProduct.size() != products.size()) {
             System.out.println("\tThe number of products displayed is incorrect; \n\t" + products.size() + " products were added, but " + listProduct.size() + " are shown.");

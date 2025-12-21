@@ -9,7 +9,7 @@ import vn.devpro.assignment67.models.Product;
 import java.util.List;
 
 public class ProductPurchaseTestCase {
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--incognito");
 
@@ -45,7 +45,7 @@ public class ProductPurchaseTestCase {
             driver.quit();
             return;
         }
-        yourInformationPage.fillInformation("cuong", "nguyen", "12345");
+        yourInformationPage.fillInformation("cuong", "nguyen", "12345", products);
 
 
         CheckoutOverviewPage overviewPage = new CheckoutOverviewPage(driver);

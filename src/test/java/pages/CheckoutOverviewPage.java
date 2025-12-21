@@ -21,6 +21,13 @@ public class CheckoutOverviewPage extends BasePage {
 
     public void finish(List<Product> products) {
         System.out.println("\n\nPage Checkout: Overview");
+        WebElement totalShoppingCart = WaitElement.visible(driver, By.className("shopping_cart_badge"), 10);
+
+        if (Integer.parseInt(totalShoppingCart.getText()) != products.size()) {
+            System.out.println("❌ The total number ofF products in the cart is incorrect!");
+        } else {
+            System.out.println("✅ The total number of products in the cart:: " + totalShoppingCart.getText());
+        }
 
         List<WebElement> listProduct = WaitElement.visibleElements(driver, By.xpath("//div[@class='cart_item']"), 10);
         if (listProduct.size() != products.size()) {
