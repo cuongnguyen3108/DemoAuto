@@ -2,10 +2,12 @@ package day3.exercise;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import vn.devpro.assignment67.models.ItemDemo;
+import vn.devpro.assignment67.models.User;
 import vn.devpro.assignment67.utils.ElementValidate;
-import vn.devpro.assignment67.utils.WaitElement;
+
+import java.util.List;
 
 public class UnHappyTestCase {
     public static void main(String[] args) {
@@ -14,59 +16,70 @@ public class UnHappyTestCase {
         driver.get("https://saucelabs.com/request-demo");
         By error = By.xpath("./ancestor::div[contains(@class,'mktoFieldWrap')]/div[contains(@class,'mktoError')]");
 
-        WebElement inputEmail = WaitElement.visible(driver, By.xpath("//input[@id=\"Email\"]"), 5);
-        inputEmail.sendKeys("john.doe@yourcompany.com");
-        WebElement btnSubmit = WaitElement.visible(driver, By.xpath("//button[@class=\"mktoButton\"]"), 5);
-        btnSubmit.click();
+        System.out.println("\n\tForm submitted without email");
+        submitFormWithMissingFields(driver,
+                new User("", "nguyen", "cuong", "Albania",
+                        "Vnback", "Scalable Test Automation",
+                        "This is the test content", (long) Double.parseDouble("0987654321")), error);
 
-        String msgEmail = ElementValidate.validate(driver,inputEmail, "Email",error);
-        if (msgEmail.contains("Must be valid email")) {
-            System.out.println(msgEmail);
-            driver.close();
-            driver.quit();
-            return;
-        } else {
-            System.out.println(msgEmail);
-        }
-        WebElement inputFirstName = WaitElement.visible(driver, By.xpath("//input[@id=\"FirstName\"]"), 15);
-        inputFirstName.sendKeys("nguyen");
-        WebElement inputLastName = WaitElement.visible(driver, By.xpath("//input[@id=\"LastName\"]"), 5);
-        inputLastName.sendKeys("cuong");
-        WebElement inputPhone = WaitElement.visible(driver, By.xpath("//input[@id=\"Phone\"]"), 5);
-//        inputPhone.sendKeys("0379093127");
+        System.out.println("\n\tForm submitted without firstName");
+        submitFormWithMissingFields(driver,
+                new User("john.doe@yourcompany.com", "", "cuong", "Albania",
+                        "Vnback", "Scalable Test Automation",
+                        "This is the test content", (long) Double.parseDouble("0987654321"))
+                , error);
 
-        WebElement selectCountry = WaitElement.visible(driver, By.xpath("//option[@value='Vietnam']"), 15);
-        selectCountry.click();
+        System.out.println("\n\tForm submitted without lastName");
+        submitFormWithMissingFields(driver,
+                new User("john.doe@yourcompany.com", "nguyen", "", "Albania",
+                        "Vnback", "Scalable Test Automation",
+                        "This is the test content", (long) Double.parseDouble("0987654321"))
+                , error);
 
-        WebElement inputCompany = WaitElement.visible(driver, By.xpath("//input[@id=\"Company\"]"), 5);
-        inputCompany.sendKeys("Vnback");
+        System.out.println("\n\tForm submitted without Company");
+        submitFormWithMissingFields(driver,
+                new User("john.doe@yourcompany.com", "nguyen", "cuong", "Albania",
+                        "", "Scalable Test Automation",
+                        "This is the test content", (long) Double.parseDouble("0987654321"))
+                , error);
 
-        WebElement selectInterest = WaitElement.visible(driver, By.xpath("//option[@value=\"Scalable Test Automation\"]"), 5);
-        selectInterest.click();
+        System.out.println("\n\tForm submitted without Phone");
+        submitFormWithMissingFields(driver,
+                new User("john.doe@yourcompany.com", "nguyen",
+                        "cuong", "Albania", "Vnback",
+                        "Scalable Test Automation", "This is the test content",null
+                        ), error);
 
-        WebElement areaComment = WaitElement.visible(driver, By.xpath("//textarea[@id=\"Sales_Contact_Comments__c\"]"), 5);
-        areaComment.sendKeys("This is the test content");
+        System.out.println("\n\tForm submitted without Country");
+        submitFormWithMissingFields(driver,
+                new User("john.doe@yourcompany.com", "nguyen",
+                        "cuong", "", "Vnback",
+                        "Scalable Test Automation", "This is the test content",
+                        (long) Double.parseDouble("0987654321")), error);
 
-        WebElement checkbox = WaitElement.visible(driver,By.xpath("//label[@id=\"LblmktoCheckbox_47208_0\"]"), 15);
-        checkbox.click();
+        System.out.println("\n\tForm submitted without Interest");
+        submitFormWithMissingFields(driver,
+                new User("john.doe@yourcompany.com", "nguyen",
+                        "cuong", "Albania", "Vnback",
+                        "", "This is the test content",
+                        (long) Double.parseDouble("0987654321")), error);
 
-
-        btnSubmit.click();
-
-        String msgFirstName = ElementValidate.validate(driver,inputFirstName, "FirstName",error);
-        System.out.println(msgFirstName);
-        String msgLastName =ElementValidate.validate(driver,inputLastName, "LastName",error);
-        System.out.println(msgLastName);
-        String msgPhone = ElementValidate.validate(driver,inputPhone, "Phone",error);
-        System.out.println(msgPhone);
-        String msgCountry = ElementValidate.validate(driver,selectCountry, "Country",error);
-        System.out.println(msgCountry);
-        String msgCompany = ElementValidate.validate(driver,inputCompany, "Company",error);
-        System.out.println(msgCompany);
-        String msgInterest = ElementValidate.validate(driver,selectInterest, "Interest",error);
-        System.out.println(msgInterest);
-        driver.close();
         driver.quit();
+    }
+
+    public static void submitFormWithMissingFields(WebDriver driver, User user, By error) {
+        List<ItemDemo> list = ItemDemo.fillForm(driver, user, error);
+
+        if (list == null || list.isEmpty()) {
+            return;
+        }
+
+        if (!ElementValidate.validateForm(driver, list, error)) {
+            return;
+        }
+
+        System.out.println("Validation passed");
+
     }
 
 
