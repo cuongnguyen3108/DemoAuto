@@ -22,14 +22,14 @@ public class ProductPurchaseTestCase {
             driver.quit();
             return;
         }
-        loginPage.login("standard_user", "secret_sauce");
+        loginPage.login("username", "password");
 
         InventoryPage inventoryPage = new InventoryPage(driver);
         if (!inventoryPage.hasRedirectedTo(10)) {
             driver.quit();
             return;
         }
-        List<Product> products = inventoryPage.addProductToCart(3);
+        List<Product> products = inventoryPage.addProductToCart("quantity");
 
 
         CartPage cartPage = new CartPage(driver);
@@ -45,7 +45,7 @@ public class ProductPurchaseTestCase {
             driver.quit();
             return;
         }
-        yourInformationPage.fillInformation("cuong", "nguyen", "12345", products);
+        yourInformationPage.fillInformation("firstName", "lastName", "postalCode", products);
 
 
         CheckoutOverviewPage overviewPage = new CheckoutOverviewPage(driver);
