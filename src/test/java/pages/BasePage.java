@@ -1,14 +1,31 @@
 package pages;
 
 import org.openqa.selenium.WebDriver;
+import vn.devpro.assignment67.utils.ExelUtils;
 import vn.devpro.assignment67.utils.WaitElement;
+
+import java.util.List;
+import java.util.Map;
 
 public abstract class BasePage {
     protected final WebDriver driver;
+    protected List<Map<String, String>> excelData;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
     }
+
+    // 👉 Page nào cần Excel thì gọi
+    protected void loadExcelData() {
+        excelData = ExelUtils.readFIleExcelData(
+                getFilePath(),
+                getSheetName()
+        );
+    }
+
+    protected abstract String getFilePath();
+
+    protected abstract String getSheetName();
 
     protected abstract String getExpectedPath();
 
