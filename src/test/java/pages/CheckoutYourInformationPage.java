@@ -1,11 +1,11 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import vn.devpro.assignment67.models.Product;
 import vn.devpro.assignment67.utils.ElementValidate;
 import vn.devpro.assignment67.utils.WaitElement;
+import vn.devpro.assignment67.utils.helpers.LocatorHelper;
 
 import java.util.List;
 import java.util.Map;
@@ -35,7 +35,7 @@ public class CheckoutYourInformationPage extends BasePage {
         System.out.println("\n\nPage Checkout: Your Information");
         Map<String, String> firstRow = excelData.get(0);
 
-        WebElement totalShoppingCart = WaitElement.visible(driver, By.className(firstRow.get("element_totalShoppingCart")), 10);
+        WebElement totalShoppingCart = WaitElement.visible(driver, LocatorHelper.getBy(firstRow.get("element_totalShoppingCart")), 10);
 
         if (Integer.parseInt(totalShoppingCart.getText()) != products.size()) {
             System.out.println("❌ The total number ofF products in the cart is incorrect!");
@@ -44,15 +44,15 @@ public class CheckoutYourInformationPage extends BasePage {
         }
 
         for (Map<String, String> data : excelData) {
-            WebElement inputFirstName = WaitElement.visible(driver, By.id(firstRow.get("element_inputFirstName")), 10);
+            WebElement inputFirstName = WaitElement.visible(driver, LocatorHelper.getBy(firstRow.get("element_inputFirstName")), 10);
             ElementValidate.clearAndType(inputFirstName, data.get(firstName));
-            WebElement inputLastName = WaitElement.visible(driver, By.id(firstRow.get("element_inputLastName")), 10);
+            WebElement inputLastName = WaitElement.visible(driver, LocatorHelper.getBy(firstRow.get("element_inputLastName")), 10);
             ElementValidate.clearAndType(inputLastName, data.get(lastName));
-            WebElement inputPostalCode = WaitElement.visible(driver, By.id(firstRow.get("element_inputPostalCode")), 10);
-            ElementValidate.clearAndType(inputPostalCode,data.get(postalCode));
-            WebElement btnContinue = WaitElement.clickable(driver, By.id(firstRow.get("element_btnContinue")), 10);
+            WebElement inputPostalCode = WaitElement.visible(driver, LocatorHelper.getBy(firstRow.get("element_inputPostalCode")), 10);
+            ElementValidate.clearAndType(inputPostalCode, data.get(postalCode));
+            WebElement btnContinue = WaitElement.clickable(driver, LocatorHelper.getBy(firstRow.get("element_btnContinue")), 10);
             btnContinue.click();
-            String msg = ElementValidate.validate(driver, null, "submit", By.xpath(firstRow.get("element_msg")));
+            String msg = ElementValidate.validate(driver, null, "submit", LocatorHelper.getBy(firstRow.get("element_msg")));
             System.out.println(msg);
         }
     }
