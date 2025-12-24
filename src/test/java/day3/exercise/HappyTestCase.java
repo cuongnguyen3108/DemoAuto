@@ -6,7 +6,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import vn.devpro.assignment67.models.ItemDemo;
 import vn.devpro.assignment67.models.User;
 import vn.devpro.assignment67.utils.Ads;
-import vn.devpro.assignment67.utils.ElementValidate;
 import vn.devpro.assignment67.utils.ExelUtils;
 import vn.devpro.assignment67.utils.helpers.FormElementData;
 
@@ -25,28 +24,17 @@ public class HappyTestCase {
         List<Map<String, String>> list = ExelUtils.readFIleExcelData(filePath, sheetName);
 
         for (Map<String, String> data : list) {
-            List<ItemDemo> listForm = FormElementData.submitFormWithMissingFields(driver,
-                    new User(data.get("email"),
-                            data.get("firstName"),
-                            data.get("lastName"),
-                            data.get("country"),
-                            data.get("company"),
-                            data.get("interest"),
-                            data.get("comment"),
-                            (long) Double.parseDouble(data.get("phone")))
-                    , error);
-            if (listForm == null || list.isEmpty()) {
-                System.out.println();
+            if (!ExelUtils.hasRequiredData(data)) {
                 continue;
             }
 
-            if (!ElementValidate.validateForm(driver, listForm, error)) {
+            List<ItemDemo> listForm = FormElementData.submitFormWithMissingFields(driver, new User(data.get("email"), data.get("firstName"), data.get("lastName"), data.get("country"), data.get("company"), data.get("interest"), data.get("comment"), data.get("phone")), error);
+            if (listForm == null || list.isEmpty()) {
                 System.out.println();
                 continue;
             }
             System.out.println();
         }
-
 
         Ads.close(driver, 15);
 

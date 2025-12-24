@@ -1,13 +1,12 @@
 package vn.devpro.assignment67.models;
 
 public class User {
-    private String email, firstName, lastName, country, company, interest, comment;
-    private Long phone;
+    private String email, firstName, lastName, country, company, interest, comment,phone;
 
     public User() {
     }
 
-    public User(String email, String firstName, String lastName, String country, String company, String interest, String comment, Long phone) {
+    public User(String email, String firstName, String lastName, String country, String company, String interest, String comment, String phone) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -74,11 +73,11 @@ public class User {
         this.comment = comment;
     }
 
-    public Long getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Long phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 }

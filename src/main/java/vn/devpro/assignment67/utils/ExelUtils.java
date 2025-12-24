@@ -60,4 +60,19 @@ public class ExelUtils {
         }
         return data;
     }
+
+    public static boolean hasRequiredData(Map<String, String> data) {
+        return isNotBlank(data.get("email"))
+                && isNotBlank(data.get("firstName"))
+                && isNotBlank(data.get("lastName"))
+                && isNotBlank(data.get("country"))
+                && isNotBlank(data.get("company"))
+                && isNotBlank(data.get("interest"))
+                && isNotBlank(data.get("phone"));
+    }
+
+    private static boolean isNotBlank(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
+
 }
