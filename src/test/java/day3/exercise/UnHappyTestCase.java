@@ -5,82 +5,57 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import vn.devpro.assignment67.models.ItemDemo;
 import vn.devpro.assignment67.models.User;
+import vn.devpro.assignment67.utils.Ads;
 import vn.devpro.assignment67.utils.ElementValidate;
+import vn.devpro.assignment67.utils.ExelUtils;
+import vn.devpro.assignment67.utils.helpers.FormElementData;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class UnHappyTestCase {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://saucelabs.com/request-demo");
         By error = By.xpath("./ancestor::div[contains(@class,'mktoFieldWrap')]/div[contains(@class,'mktoError')]");
+        String filePath = "data-test-book-your-femo-here.xlsx";
+        String sheetName = "data";
+        List<Map<String, String>> list = ExelUtils.readFIleExcelData(filePath, sheetName);
 
-        System.out.println("\n\tForm submitted without email");
-        submitFormWithMissingFields(driver,
-                new User("", "nguyen", "cuong", "Albania",
-                        "Vnback", "Scalable Test Automation",
-                        "This is the test content", (long) Double.parseDouble("0987654321")), error);
+        for (Map<String, String> data : list) {
+            List<ItemDemo> listForm = FormElementData.submitFormWithMissingFields(driver,
+                    new User(data.get("email"),
+                            data.get("firstName"),
+                            data.get("lastName"),
+                            data.get("country"),
+                            data.get("company"),
+                            data.get("interest"),
+                            data.get("comment"),
+                            (long) Double.parseDouble(data.get("phone")))
+                    , error);
+            if (listForm == null || list.isEmpty()) {
+                System.out.println();
+                continue;
+            }
 
-        System.out.println("\n\tForm submitted without firstName");
-        submitFormWithMissingFields(driver,
-                new User("john.doe@yourcompany.com", "", "cuong", "Albania",
-                        "Vnback", "Scalable Test Automation",
-                        "This is the test content", (long) Double.parseDouble("0987654321"))
-                , error);
+            if (!ElementValidate.validateForm(driver, listForm, error)) {
+                System.out.println();
+                continue;
+            }
+            System.out.println();
+        }
 
-        System.out.println("\n\tForm submitted without lastName");
-        submitFormWithMissingFields(driver,
-                new User("john.doe@yourcompany.com", "nguyen", "", "Albania",
-                        "Vnback", "Scalable Test Automation",
-                        "This is the test content", (long) Double.parseDouble("0987654321"))
-                , error);
 
-        System.out.println("\n\tForm submitted without Company");
-        submitFormWithMissingFields(driver,
-                new User("john.doe@yourcompany.com", "nguyen", "cuong", "Albania",
-                        "", "Scalable Test Automation",
-                        "This is the test content", (long) Double.parseDouble("0987654321"))
-                , error);
+        Ads.close(driver, 15);
 
-        System.out.println("\n\tForm submitted without Phone");
-        submitFormWithMissingFields(driver,
-                new User("john.doe@yourcompany.com", "nguyen",
-                        "cuong", "Albania", "Vnback",
-                        "Scalable Test Automation", "This is the test content",null
-                        ), error);
-
-        System.out.println("\n\tForm submitted without Country");
-        submitFormWithMissingFields(driver,
-                new User("john.doe@yourcompany.com", "nguyen",
-                        "cuong", "", "Vnback",
-                        "Scalable Test Automation", "This is the test content",
-                        (long) Double.parseDouble("0987654321")), error);
-
-        System.out.println("\n\tForm submitted without Interest");
-        submitFormWithMissingFields(driver,
-                new User("john.doe@yourcompany.com", "nguyen",
-                        "cuong", "Albania", "Vnback",
-                        "", "This is the test content",
-                        (long) Double.parseDouble("0987654321")), error);
-
+        String pageTitle2 = driver.getTitle();
+        if (Objects.equals(pageTitle2, "Thank you")) {
+            System.out.println("✅ Test case successfully");
+        } else {
+            System.out.println(pageTitle2);
+        }
         driver.quit();
     }
-
-    public static void submitFormWithMissingFields(WebDriver driver, User user, By error) {
-        List<ItemDemo> list = ItemDemo.fillForm(driver, user, error);
-
-        if (list == null || list.isEmpty()) {
-            return;
-        }
-
-        if (!ElementValidate.validateForm(driver, list, error)) {
-            return;
-        }
-
-        System.out.println("Validation passed");
-
-    }
-
-
 }
