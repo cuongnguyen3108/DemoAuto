@@ -7,10 +7,11 @@ import vn.devpro.assignment67.models.User;
 import vn.devpro.assignment67.utils.ElementValidate;
 
 import java.util.List;
+import java.util.Map;
 
 public class FormElementData {
-    public static List<ItemDemo> submitFormWithMissingFields(WebDriver driver, User user, By error) {
-        List<ItemDemo> list = ItemDemo.fillForm(driver, user, error);
+    public static List<ItemDemo> submitFormWithMissingFields(WebDriver driver, User user, By error, Map<String, String> listElement) {
+        List<ItemDemo> list = ItemDemo.fillForm(driver, user, error,listElement);
 
         if (list == null || list.isEmpty()) {
             return null;

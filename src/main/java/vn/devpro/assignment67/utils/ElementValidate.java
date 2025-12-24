@@ -4,9 +4,11 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 import vn.devpro.assignment67.models.ItemDemo;
 import vn.devpro.assignment67.models.User;
+import vn.devpro.assignment67.utils.helpers.LocatorHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ElementValidate {
 
@@ -59,13 +61,14 @@ public class ElementValidate {
 
         return "✅ Field " + fieldName + ": successfully";
     }
-    public static boolean submitEmailAndValidate(WebDriver driver, String email, By error) {
 
-        WebElement inputEmail = WaitElement.visible(driver, By.id("Email"), 10);
+    public static boolean submitEmailAndValidate(WebDriver driver, String email, By error, Map<String, String> listElement) {
+
+        WebElement inputEmail = WaitElement.visible(driver, LocatorHelper.getBy(listElement.get("email")), 10);
         ElementValidate.clearAndType(inputEmail, email);
 
         WebElement btnSubmit = WaitElement.visible(driver,
-                By.cssSelector("button.mktoButton"), 10);
+                LocatorHelper.getBy(listElement.get("btnSubmit")), 10);
         btnSubmit.click();
 
         String msg = ElementValidate.validate(driver, inputEmail, "Email", error);
@@ -98,37 +101,37 @@ public class ElementValidate {
 
         return isPass;
     }
-    public static List<ItemDemo> fillRemainingFields(WebDriver driver, User user) {
+
+    public static List<ItemDemo> fillRemainingFields(WebDriver driver, User user, Map<String, String> listElement) {
 
         List<ItemDemo> list = new ArrayList<>();
-
-        WebElement inputFirstName = WaitElement.visible(driver, By.id("FirstName"), 10);
+        WebElement inputFirstName = WaitElement.visible(driver, LocatorHelper.getBy(listElement.get("FirstName")), 10);
         ElementValidate.clearAndType(inputFirstName, user.getFirstName());
         list.add(new ItemDemo("FirstName", inputFirstName, ""));
 
-        WebElement inputLastName = WaitElement.visible(driver, By.id("LastName"), 10);
+        WebElement inputLastName = WaitElement.visible(driver, LocatorHelper.getBy(listElement.get("LastName")), 10);
         ElementValidate.clearAndType(inputLastName, user.getLastName());
         list.add(new ItemDemo("LastName", inputLastName, ""));
 
-        WebElement inputPhone = WaitElement.visible(driver, By.id("Phone"), 10);
+        WebElement inputPhone = WaitElement.visible(driver, LocatorHelper.getBy(listElement.get("Phone")), 10);
         ElementValidate.clearAndType(inputPhone, user.getPhone());
         list.add(new ItemDemo("Phone", inputPhone, ""));
 
-        WebElement selectCountry = WaitElement.visible(driver, By.id("Country"), 10);
+        WebElement selectCountry = WaitElement.visible(driver, LocatorHelper.getBy(listElement.get("Country")), 10);
         ElementValidate.selectByVisibleText(selectCountry, user.getCountry());
         list.add(new ItemDemo("Country", selectCountry, ""));
 
-        WebElement inputCompany = WaitElement.visible(driver, By.id("Company"), 10);
+        WebElement inputCompany = WaitElement.visible(driver, LocatorHelper.getBy(listElement.get("Company")), 10);
         ElementValidate.clearAndType(inputCompany, user.getCompany());
         list.add(new ItemDemo("Company", inputCompany, ""));
 
         WebElement selectInterest = WaitElement.visible(driver,
-                By.id("Solution_Interest__c"), 10);
+                LocatorHelper.getBy(listElement.get("selectInterest")), 10);
         ElementValidate.selectByVisibleText(selectInterest, user.getInterest());
         list.add(new ItemDemo("Interest", selectInterest, ""));
 
         WebElement areaComment = WaitElement.visible(driver,
-                By.id("Sales_Contact_Comments__c"), 10);
+                LocatorHelper.getBy(listElement.get("areaComment")), 10);
         ElementValidate.clearAndType(areaComment, user.getComment());
         list.add(new ItemDemo("Comment", areaComment, ""));
 
@@ -164,6 +167,7 @@ public class ElementValidate {
             element.sendKeys(text);
         }
     }
+
     public static void clearAndClickCheckbox(WebElement checkbox) {
         if (checkbox == null) {
             throw new IllegalArgumentException("Checkbox is null");
