@@ -60,6 +60,40 @@ public class ExelUtils {
         }
         return data;
     }
+    public static List<List<String>> readRawSheet(String filePath, String sheetName) {
+
+        List<List<String>> rows = new ArrayList<>();
+
+        try (FileInputStream file = new FileInputStream(filePath);
+             Workbook workbook = new XSSFWorkbook(file)) {
+
+            Sheet sheet = workbook.getSheet(sheetName);
+            if (sheet == null) {
+                throw new IllegalArgumentException("Sheet '" + sheetName + "' không tồn tại");
+            }
+
+            DataFormatter formatter = new DataFormatter();
+
+            for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+                Row row = sheet.getRow(i);
+                if (row == null) continue;
+
+                List<String> cells = new ArrayList<>();
+                int colCount = row.getLastCellNum();
+
+                for (int j = 0; j < colCount; j++) {
+                    cells.add(formatter.formatCellValue(row.getCell(j)).trim());
+                }
+
+                rows.add(cells);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException("❌ Lỗi đọc Excel", e);
+        }
+
+        return rows;
+    }
 
     public static boolean hasRequiredData(Map<String, String> data) {
         return isNotBlank(data.get("email"))

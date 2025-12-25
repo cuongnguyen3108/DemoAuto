@@ -2,20 +2,24 @@ package pages;
 
 import org.openqa.selenium.WebDriver;
 import vn.devpro.assignment67.utils.ExelUtils;
+import vn.devpro.assignment67.utils.MessageUtils;
 import vn.devpro.assignment67.utils.WaitElement;
 
 import java.util.List;
 import java.util.Map;
 
 public abstract class BasePage {
-    protected final WebDriver driver;
+
+    protected WebDriver driver;
+
+    // Test data
     protected List<Map<String, String>> excelData;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
     }
 
-    // 👉 Page nào cần Excel thì gọi
+    // 👉 Page nào cần data thì gọi
     protected void loadExcelData() {
         excelData = ExelUtils.readFIleExcelData(
                 getFilePath(),
@@ -23,6 +27,19 @@ public abstract class BasePage {
         );
     }
 
+    // 👉 Page nào cần message thì gọi
+    protected void loadExcelMessageData() {
+        MessageUtils.loadFromExcel(
+                getFilePath(),
+                "Messages"
+        );
+    }
+
+    // Helper dùng chung cho Page
+    protected String msg(String key, Object... args) {
+        return MessageUtils.get(key, args);
+    }
+    // Bắt buộc Page con phải implement
     protected abstract String getFilePath();
 
     protected abstract String getSheetName();
