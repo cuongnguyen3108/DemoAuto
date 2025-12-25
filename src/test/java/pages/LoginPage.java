@@ -1,10 +1,8 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import vn.devpro.assignment67.utils.ElementValidate;
-import vn.devpro.assignment67.utils.ExelUtils;
 import vn.devpro.assignment67.utils.WaitElement;
 import vn.devpro.assignment67.utils.helpers.LocatorHelper;
 
@@ -19,7 +17,7 @@ public class LoginPage extends BasePage {
 
     @Override
     protected String getFilePath() {
-        return "data-test.xltx";
+        return "data-test-product-purchase.xlsx";
     }
 
     @Override

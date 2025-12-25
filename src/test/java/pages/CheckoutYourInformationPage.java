@@ -18,7 +18,7 @@ public class CheckoutYourInformationPage extends BasePage {
 
     @Override
     protected String getFilePath() {
-        return "data-test.xltx";
+        return "data-test-product-purchase.xlsx";
     }
 
     @Override
