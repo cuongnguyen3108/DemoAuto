@@ -12,6 +12,7 @@ public class CheckoutCompletePage extends BasePage {
     public CheckoutCompletePage(WebDriver driver) {
         super(driver);
         loadExcelData();
+        loadExcelMessageData();
     }
 
     @Override
@@ -39,12 +40,12 @@ public class CheckoutCompletePage extends BasePage {
         System.out.println(completeText.getText());
         WebElement btnBackHome = WaitElement.clickable(driver, LocatorHelper.getBy(firstRow.get("element_btnBackHome")), 15);
         if (!btnBackHome.isDisplayed()) {
-            System.out.println("❌ Button " + btnBackHome.getText() + " is not displayed");
+            System.out.println(msg("msg_not_pass_display_btn", btnBackHome.getText()));
             driver.quit();
             return;
         }
-        System.out.println("✅ Button " + btnBackHome.getText() + " is displayed");
-        System.out.println("✅ Button " + btnBackHome.getText() + " is clicked");
+        System.out.println(msg("msg_pass_display_btn", btnBackHome.getText()));
+        System.out.println(msg("msg_pass_click_btn", btnBackHome.getText()));
         btnBackHome.click();
     }
 

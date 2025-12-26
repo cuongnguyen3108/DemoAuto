@@ -14,6 +14,7 @@ public class CheckoutYourInformationPage extends BasePage {
     public CheckoutYourInformationPage(WebDriver driver) {
         super(driver);
         loadExcelData();
+        loadExcelMessageData();
     }
 
     @Override
@@ -38,9 +39,9 @@ public class CheckoutYourInformationPage extends BasePage {
         WebElement totalShoppingCart = WaitElement.visible(driver, LocatorHelper.getBy(firstRow.get("element_totalShoppingCart")), 10);
 
         if (Integer.parseInt(totalShoppingCart.getText()) != products.size()) {
-            System.out.println("❌ The total number off products in the cart is incorrect!");
+            System.out.println(msg("msg_not_pass_cart_badge2"));
         } else {
-            System.out.println(msg("msg_pass_cart_badge",totalShoppingCart.getText()));
+            System.out.println(msg("msg_pass_cart_badge", totalShoppingCart.getText()));
         }
 
         for (Map<String, String> data : excelData) {

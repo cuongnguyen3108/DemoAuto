@@ -16,6 +16,7 @@ public class InventoryPage extends BasePage {
     public InventoryPage(WebDriver driver) {
         super(driver);
         loadExcelData();
+        loadExcelMessageData();
     }
 
     @Override
@@ -68,17 +69,16 @@ public class InventoryPage extends BasePage {
                 WebElement addToCartProduct = listProduct.get(i).findElement(LocatorHelper.getBy(firstRow.get("element_addToCartProduct")));
                 addToCartProduct.click();
                 WebElement nameProduct = listProduct.get(i).findElement(LocatorHelper.getBy(firstRow.get("element_nameProduct")));
-                System.out.println("Name Product: " + nameProduct.getText());
+                System.out.println(msg("msg_pass_display_nameProduct", i + 1, nameProduct.getText()));
                 product.setProductName(nameProduct.getText());
                 WebElement priceProduct = listProduct.get(i).findElement(LocatorHelper.getBy(firstRow.get("element_priceProduct")));
-                System.out.println("Price Product: " + priceProduct.getText());
+                System.out.println(msg("msg_pass_display_priceProduct", (i + 1), priceProduct.getText()));
                 String priceNumber = priceProduct.getText().replace("$", "");
                 product.setPrice(Double.parseDouble(priceNumber));
 
                 int quantityProduct = 1;
                 product.setQuantity(quantityProduct);
-                System.out.println("Quantity Product: " + quantityProduct);
-
+                System.out.println(msg("msg_pass_display_quantityProduct", quantityProduct));
                 products.add(product);
             }
         }
@@ -86,9 +86,9 @@ public class InventoryPage extends BasePage {
         WebElement totalShoppingCart = WaitElement.visible(driver, LocatorHelper.getBy(firstRow.get("element_totalShoppingCart")), 10);
 
         if (Integer.parseInt(totalShoppingCart.getText()) != q) {
-            System.out.println("❌ The total number ofF products in the cart is incorrect!");
+            System.out.println(msg("msg_not_pass_cart_badge2"));
         } else {
-            System.out.println("✅ The total number of products in the cart: " + totalShoppingCart.getText());
+            System.out.println(msg("msg_pass_cart_badge", totalShoppingCart.getText()));
             totalShoppingCart.click();
         }
         return products;
