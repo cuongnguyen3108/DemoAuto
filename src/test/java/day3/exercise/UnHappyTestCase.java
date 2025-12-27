@@ -21,8 +21,8 @@ public class UnHappyTestCase {
         String filePath = "data-test-book-your-femo-here.xlsx";
         String sheetName = "data";
         String sheetElement = "Element";
-        List<Map<String, String>> list = ExelUtils.readFIleExcelData(filePath, sheetName);
-        List<Map<String, String>> listElement = ExelUtils.readFIleExcelData(filePath, sheetElement);
+        List<Map<String, String>> list = ExelUtils.readFileExcelData(filePath, sheetName);
+        List<Map<String, String>> listElement = ExelUtils.readFileExcelData(filePath, sheetElement);
 
         Map<String, String> firstRowElement = listElement.get(0);
 

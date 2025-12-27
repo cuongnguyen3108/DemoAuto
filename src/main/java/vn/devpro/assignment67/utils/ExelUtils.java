@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class ExelUtils {
-    public static List<Map<String, String>> readFIleExcelData(String filePath, String sheetName) {
+    public static List<Map<String, String>> readFileExcelData(String filePath, String sheetName) {
         if (filePath == null || sheetName == null) {
             return Collections.emptyList();
         }
