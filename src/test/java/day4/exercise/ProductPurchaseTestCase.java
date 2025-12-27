@@ -18,57 +18,43 @@ public class ProductPurchaseTestCase {
         driver.get("https://www.saucedemo.com/");
 
         LoginPage loginPage = new LoginPage(driver);
-        if (!loginPage.hasRedirectedTo(10)) {
-            driver.quit();
-            return;
-        }
+        loginPage.verifyPageNavigation( 10);
+
         loginPage.login("username", "password");
 
         InventoryPage inventoryPage = new InventoryPage(driver);
-        if (!inventoryPage.hasRedirectedTo(10)) {
-            driver.quit();
-            return;
-        }
+        inventoryPage.verifyPageNavigation(10);
+
         List<Product> products = inventoryPage.addProductToCart("quantity");
 
-
         CartPage cartPage = new CartPage(driver);
-        if (!cartPage.hasRedirectedTo(10)) {
-            driver.quit();
-            return;
-        }
+        cartPage.verifyPageNavigation(10);
+
         cartPage.yourCart(products);
 
-
         CheckoutYourInformationPage yourInformationPage = new CheckoutYourInformationPage(driver);
-        if (!yourInformationPage.hasRedirectedTo(10)) {
-            driver.quit();
-            return;
-        }
+        yourInformationPage.verifyPageNavigation( 10);
+
         yourInformationPage.fillInformation("firstName", "lastName", "postalCode", products);
 
 
         CheckoutOverviewPage overviewPage = new CheckoutOverviewPage(driver);
-        if (!overviewPage.hasRedirectedTo(10)) {
-            driver.quit();
-            return;
-        }
+        overviewPage.verifyPageNavigation( 10);
+
         overviewPage.finish(products);
 
 
         CheckoutCompletePage completePage = new CheckoutCompletePage(driver);
-        if (!completePage.hasRedirectedTo(10)) {
-            driver.quit();
-            return;
-        }
+        completePage.verifyPageNavigation( 10);
+
         completePage.complete();
 
         System.out.println("\n");
-        if (!inventoryPage.hasRedirectedTo(10)) {
-            driver.quit();
-            return;
-        }
+        inventoryPage.verifyPageNavigation( 10);
+
         System.out.println("✅ Text case successful");
         driver.quit();
     }
+
+
 }

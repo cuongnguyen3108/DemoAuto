@@ -21,7 +21,7 @@ public abstract class BasePage {
 
     // 👉 Page nào cần data thì gọi
     protected void loadExcelData() {
-        excelData = ExelUtils.readFIleExcelData(
+        excelData = ExelUtils.readFileExcelData(
                 getFilePath(),
                 getSheetName()
         );
@@ -60,6 +60,12 @@ public abstract class BasePage {
             System.out.println("❌ Timeout waiting for page: " + getExpectedPath());
             System.out.println("❌ Final URL: " + driver.getCurrentUrl());
             return false;
+        }
+    }
+    public void verifyPageNavigation(int timeoutSec) {
+        if (!hasRedirectedTo(timeoutSec)) {
+            driver.quit();
+            throw new RuntimeException("❌ Navigation failed to " + getClass().getSimpleName());
         }
     }
 }
