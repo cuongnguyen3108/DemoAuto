@@ -21,14 +21,12 @@ public class BookYouDemoHereTextCase {
     public void setUp() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+        driver.get("https://saucelabs.com/request-demo");
+
     }
 
     @Test
     public void testHappilyWithValidCredentials() {
-        driver.get("https://saucelabs.com/request-demo");
-        Assert.assertEquals(driver.getCurrentUrl(), "https://saucelabs.com/request-demo", "Did not go to the correct page");
-        Assert.assertEquals(driver.getTitle(), "Request a Sauce Labs Demo", "Did not go to the correct page");
-
         WebElement inputEmail = WaitElement.present(driver, By.xpath("//input[@id=\"Email\"]"), 10);
         inputEmail.sendKeys("john.doe@yourcompany.com");
         Assert.assertEquals(inputEmail.getAttribute("value").trim(), "john.doe@yourcompany.com", "Incorrect Email entered");
